@@ -75,3 +75,5 @@ SiteSeeker -i pdb_files/1HWK.pdb -o results/1HWK -vk
 ## Support
 
 You can contact us at arnau.noguera01@estudiant.upf.edu and aina.vaquer01@estudiant.upf.edu 
+
+Check out our GitHub https://github.com/arnaunoguera/SiteSeeker for updates.
