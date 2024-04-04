@@ -1,0 +1,2 @@
+[console_scripts]
+SiteSeeker = SiteSeeker.PredictBindingSites:main
