@@ -1,6 +1,7 @@
 README.md
 setup.py
 SiteSeeker/PredictBindingSites.py
+SiteSeeker/SiteSeeker_Report.pdf
 SiteSeeker/aminoacid_info.py
 SiteSeeker/model.joblib
 SiteSeeker/residue_functions.py

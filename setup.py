@@ -9,7 +9,7 @@ setup(name='SiteSeeker',
     install_requires=['biopython>=1.83','numpy>=1.26.4','pandas>=2.2.1','joblib>=1.3.2','scikit-learn>=1.4.1.post1'],
     extras_require={'dssp': ['dssp']},
     packages=['SiteSeeker', 'Training'],
-    package_data={'SiteSeeker': ['model.joblib', 'scaler.pkl'],
+    package_data={'SiteSeeker': ['model.joblib', 'scaler.pkl', 'SiteSeeker_Report.pdf'],
                   'Training': ['hyperparameter_tuning.tsv', 'ligands.txt', 'training_file.tsv']},
     entry_points={
         'console_scripts': [

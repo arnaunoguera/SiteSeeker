@@ -24,7 +24,7 @@ Arguments:
   -h, --help            show the help message and exit
 
   --input INPUT, -i INPUT
-                        Input file in PBD format (with extension .pdb)
+                        Input file in PDB format (with extension .pdb)
 
   --output OUTPUT, -o OUTPUT
                         Desired path and base filename of the output files (without the file extension)

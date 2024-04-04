@@ -100,7 +100,7 @@ def groupBindingSites(featuresTable, predictions, max_dist = 4):
     return(BindingSites)
 
 
-def SiteSeeker(input_file, known_binding = False, verbose = False, output = None, max_distance = 4):
+def SiteSeeker_predict(input_file, known_binding = False, verbose = False, output = None, max_distance = 4):
     """
     Predicts binding sites in a protein structure (from a PDB file) based on a SVM model which considers a set of 
     structural and physicochemical features, trained on a dataset of protein structures with known binding sites.
@@ -114,7 +114,11 @@ def SiteSeeker(input_file, known_binding = False, verbose = False, output = None
     # Extracting the features from the input file to get the features table
     if verbose:
         print("Extracting features from input file...")
-    features = residue_functions.residue_features(pdb_code, input_file, binding=known_binding)
+    try:
+        features = residue_functions.residue_features(pdb_code, input_file, binding=known_binding)
+    except ValueError as e:
+        print(e, file=sys.stderr)
+        sys.exit(1)
     if verbose:
         print("Predicting binding sites...")
     # Encoding categorical features into binary
@@ -201,7 +205,7 @@ def main():
                                      to the heteroatoms in the input file (excluding water molecules).
                                      """)
     # Add input arguments
-    parser.add_argument('--input', '-i', type=str, help='Input file in PBD format (with extension .pdb)', required=True)
+    parser.add_argument('--input', '-i', type=str, help='Input file in PDB format (with extension .pdb)', required=True)
     parser.add_argument('--output', '-o', type=str, help='Desired path and base filename of the output files (without the file extension)', required=False)
     parser.add_argument('--verbose', '-v', action='store_true', help='Prints additional information during the execution', required=False)
     parser.add_argument('--maxdist', '-d', type=int, help='Maximum distance between the closest residues in two binding sites for these to be considered separate binding sites (default: 4 Å)', required=False)
@@ -235,7 +239,7 @@ def main():
     else:
         output_dir = None
     # Call the SiteSeeker function with the input arguments
-    SiteSeeker(input_arg, known_binding= args.knownbind, verbose = args.verbose, output= output_dir, max_distance = max_distance)
+    SiteSeeker_predict(input_arg, known_binding= args.knownbind, verbose = args.verbose, output= output_dir, max_distance = max_distance)
 
 # If the script is run directly, call the main function
 if __name__ == '__main__':

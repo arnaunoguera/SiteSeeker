@@ -6,7 +6,7 @@ from Bio.PDB import PDBList
 from Bio.PDB.DSSP import DSSP
 import numpy as np
 import pandas as pd
-import aminoacid_info as aa
+import SiteSeeker.aminoacid_info as aa
 
 #Function to get the distance between two atoms.
 
@@ -72,7 +72,11 @@ def calculate_density_and_convexity(structure, reference_residue, search_radius,
 
                 chainID = residue2.get_parent().get_id()
                 dssp_key = (chainID, residue2ID)
-                residue2ASA = dssp[dssp_key][3]
+                try:
+                    residue2ASA = dssp[dssp_key][3]
+                except KeyError:
+                    neighbor_count -= 1
+                    continue
                 neighbor_list_ASA.append(residue2ASA)
 
     # Calculating volume of a sphere with a radius equal to the search radious.
@@ -108,6 +112,10 @@ def residue_features(pdb_code, pdb_file, binding=True):
     model = structure[0]
     dssp = DSSP(model, in_file = pdb_file, dssp='dssp')
 
+    if len(dssp.keys()) == 0:
+        raise ValueError('DSSP could not be calculated for the given structure. Please check the input file.')
+        return
+
     #First step: determining which residues in the training file are from a binding site
     #Iterating to find heteroatoms and storing them.
 
@@ -142,6 +150,14 @@ def residue_features(pdb_code, pdb_file, binding=True):
             for residue_instance in chain_instance.get_iterator():
                 residueID = residue_instance.get_id() 
                 if residueID[0][0] == ' ':
+
+                    # Check if the residue has structure information in the DSSP result; otherwise skip it
+
+                    dssp_key = (chainID, residueID)
+                    try:
+                        dssp_info = dssp[dssp_key]
+                    except KeyError: 
+                        continue
 
                     #Storing the residue instance in the dictionary.
 
@@ -184,9 +200,6 @@ def residue_features(pdb_code, pdb_file, binding=True):
                     dicc['steric_parameter'].append(aa.steric_parameter.get(residue_letter)) #Steric parameter
 
                     #Accessing the info of our residue stored in the dssp table and adding it to the dictionary. 
-
-                    dssp_key = (chainID, residueID)
-                    dssp_info = dssp[dssp_key]
                     dicc['secondary_structure'].append(dssp_info[2]) #Secondary structure
                     dicc['ASA'].append(dssp_info[3]) #relative ASA
                     dicc['phi'].append(dssp_info[4]) #phi angle
