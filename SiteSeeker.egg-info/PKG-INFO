@@ -5,10 +5,4 @@ Summary: Machine-learning structure-based predictron of protein ligand binding s
 Home-page: https://github.com/arnaunoguera/SiteSeeker
 Author: Arnau Noguera Segura, Aina Vaquer Picó
 Author-email: arnau.noguera01@estudiant.upf.edu, aina.vaquer01@estudiant.upf.edu
-Requires-Dist: biopython>=1.83
-Requires-Dist: numpy>=1.26.4
-Requires-Dist: pandas>=2.2.1
-Requires-Dist: joblib>=1.3.2
-Requires-Dist: scikit-learn>=1.4.1.post1
 Provides-Extra: dssp
-Requires-Dist: dssp; extra == "dssp"
